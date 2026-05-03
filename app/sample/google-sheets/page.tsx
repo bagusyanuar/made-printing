@@ -5,12 +5,53 @@ import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { testGoogleSheets } from "./actions";
-import { FileSpreadsheet, Send } from "lucide-react";
+import { testGoogleSheets, createTestSheet, createTestTab } from "./actions";
+import { FileSpreadsheet, Send, FilePlus, PlusCircle } from "lucide-react";
 
 export default function GoogleSheetsSample() {
   const [spreadsheetId, setSpreadsheetId] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [creating, setCreating] = React.useState(false);
+
+  const handleCreate = async () => {
+    setCreating(true);
+    try {
+      const res = await createTestSheet();
+      if (res.success) {
+        toast.success(res.message);
+        setSpreadsheetId(res.spreadsheetId || "");
+        // Open in new tab
+        if (res.url) window.open(res.url, "_blank");
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan sistem");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleAddTab = async () => {
+    if (!spreadsheetId) {
+      toast.error("Masukkan Spreadsheet ID dulu Bosku!");
+      return;
+    }
+
+    setCreating(true);
+    try {
+      const res = await createTestTab(spreadsheetId);
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.error);
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan sistem");
+    } finally {
+      setCreating(false);
+    }
+  };
 
   const handleTest = async () => {
     if (!spreadsheetId) {
@@ -65,10 +106,30 @@ export default function GoogleSheetsSample() {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Button 
+            onClick={handleAddTab} 
+            loading={creating}
+            variant="outline"
+            className="h-12 rounded-2xl border-zinc-200 dark:border-zinc-800"
+          >
+            <PlusCircle className="mr-2 size-4" /> Tambah Tab Baru
+          </Button>
+
+          <Button 
+            onClick={handleCreate} 
+            loading={creating}
+            variant="outline"
+            className="h-12 rounded-2xl border-zinc-200 dark:border-zinc-800"
+          >
+            <FilePlus className="mr-2 size-4" /> Bikin Sheet Baru
+          </Button>
+        </div>
+
         <Button 
           onClick={handleTest} 
           loading={loading}
-          className="w-full h-12 rounded-2xl bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/20"
+          className="w-full h-12 rounded-2xl bg-green-600 hover:bg-green-700 shadow-lg shadow-green-600/20 text-white"
         >
           <Send className="mr-2 size-4" /> Kirim Data Test
         </Button>
