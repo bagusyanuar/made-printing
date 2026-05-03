@@ -1,0 +1,10 @@
+Table materials {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar [not null]
+  unit varchar [not null] // e.g., 'm2', 'pcs', 'box', 'rim'
+  price_per_unit decimal [not null, default: 0]
+  stock decimal [default: 0]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  deleted_at timestamp
+}

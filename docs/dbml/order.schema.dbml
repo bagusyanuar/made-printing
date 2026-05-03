@@ -1,0 +1,25 @@
+Table orders {
+  id uuid [pk, default: `gen_random_uuid()`]
+  user_id uuid // creator
+  customer_name varchar [not null]
+  total_amount decimal [not null, default: 0]
+  status varchar [not null, default: 'pending'] // pending, printing, done, cancelled
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  deleted_at timestamp
+}
+
+Table order_items {
+  id uuid [pk, default: `gen_random_uuid()`]
+  order_id uuid [ref: > orders.id]
+  product_id uuid // ref to products.id
+  material_id uuid // ref to materials.id
+  quantity decimal [not null]
+  width decimal // for m2 calculation
+  height decimal // for m2 calculation
+  subtotal decimal [not null]
+  notes text
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  deleted_at timestamp
+}

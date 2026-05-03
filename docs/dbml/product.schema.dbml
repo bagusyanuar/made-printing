@@ -1,0 +1,21 @@
+Table products {
+  id uuid [pk, default: `gen_random_uuid()`]
+  category_id uuid [ref: > categories.id]
+  name varchar [not null]
+  slug varchar [unique, not null]
+  description text
+  base_price decimal [not null, default: 0]
+  unit_type varchar [not null] // e.g., 'm2', 'pcs', 'box'
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  deleted_at timestamp
+}
+
+Table product_materials {
+  id uuid [pk, default: `gen_random_uuid()`]
+  product_id uuid [ref: > products.id]
+  material_id uuid [ref: > materials.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  deleted_at timestamp
+}

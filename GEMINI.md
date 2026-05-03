@@ -16,8 +16,10 @@
 
 ### 📜 Rules
 
-- Gunakan Server Components by default.
-- Drizzle schema harus sinkron dengan Supabase.
-- Styling Tailwind v4.
-- Validasi input wajib pakai Zod.
-- Error handling harus user-friendly (Toast/Alert).
+- **Architecture**: Pragmatic Feature-Based. Kelompokkan logic, components, dan actions per fitur.
+- **Logic**: Gunakan Server Actions sebagai "Use Case" layer. Hindari repository pattern berlebihan.
+- **Server Components**: Gunakan Server Components by default.
+- **Data Layer**: Drizzle schema harus sinkron dengan Supabase.
+- **Styling**: Tailwind v4 composition.
+- **Validation**: Zod wajib di setiap entry point (Server Actions/API).
+- **Error Handling**: User-friendly feedback (Toast/Alert).

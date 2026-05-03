@@ -1,0 +1,9 @@
+Table categories {
+  id uuid [pk, default: `gen_random_uuid()`]
+  name varchar [not null]
+  slug varchar [unique, not null]
+  description text
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  deleted_at timestamp
+}
