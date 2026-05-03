@@ -27,6 +27,15 @@ import {
   TableCell,
   Pagination
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogOverlay,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from "@/components/ui/dialog";
 import { 
   AreaChart, 
   Area, 
@@ -58,6 +67,7 @@ const chartData = [
 export default function DashboardSamplePage() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(10);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   return (
     <div className="flex h-screen bg-zinc-50 dark:bg-zinc-900 overflow-hidden">
       {/* SIDEBAR */}
@@ -139,7 +149,10 @@ export default function DashboardSamplePage() {
                 <h1 className="text-3xl font-bold">Welcome Back, Admin!</h1>
                 <p className="text-zinc-500 mt-1">Here is what&apos;s happening with your business today.</p>
               </div>
-              <Button className="rounded-xl h-11 px-6 shadow-lg shadow-primary/20">
+              <Button 
+                onClick={() => setIsDialogOpen(true)}
+                className="rounded-xl h-11 px-6 shadow-lg shadow-primary/20"
+              >
                 <Plus className="mr-2 size-5" /> New Order
               </Button>
             </div>
@@ -275,6 +288,30 @@ export default function DashboardSamplePage() {
           </div>
         </main>
       </div>
+
+      <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
+        <DialogOverlay onClick={() => setIsDialogOpen(false)} />
+        <DialogContent onClose={() => setIsDialogOpen(false)}>
+          <DialogHeader>
+            <DialogTitle>Create New Order</DialogTitle>
+            <DialogDescription>
+              Isi formulir di bawah ini untuk menambahkan pesanan baru ke sistem.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="p-6 space-y-4">
+            {/* INI PLACEHOLDER BUAT FORM NANTI */}
+            <div className="h-32 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-2 border-dashed border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-400 text-sm">
+              Form Content Area
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+            <Button onClick={() => setIsDialogOpen(false)}>Create Order</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
